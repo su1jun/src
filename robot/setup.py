@@ -24,6 +24,7 @@ setup(
             'bluetooth = robot.bluetooth_node:main',
             'motor_btl = robot.motor_btl_node:main',
             'motor = robot.motor_node:main',
+            'odom = robot.odom_node:main',
         ],
     },
 )
