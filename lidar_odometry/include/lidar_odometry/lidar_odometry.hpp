@@ -15,8 +15,6 @@ class LidarOdometry
         StatePtr get_state();
         void process_scan_data(const ScanDataPtr scan_data);
 
-        std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
-
     private:
 
         ScanDataPtr last_scan_ptr;

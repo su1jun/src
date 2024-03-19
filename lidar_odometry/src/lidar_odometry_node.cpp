@@ -37,7 +37,7 @@ class LidarOdometryNode : public rclcpp::Node
       RCLCPP_INFO(this->get_logger(), "maximum_iterations %.4f", maximum_iterations);
       RCLCPP_INFO(this->get_logger(), "scan_topic_name: %s", scan_topic_name.c_str());
       RCLCPP_INFO(this->get_logger(), "odom_topic_name: %s", odom_topic_name.c_str());
-      tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
+
       lidar_odometry_ptr = std::make_shared<LidarOdometry>(max_correspondence_distance, transformation_epsilon, maximum_iterations);
 
       odom_publisher = this->create_publisher<nav_msgs::msg::Odometry>(odom_topic_name, 100);
@@ -87,22 +87,6 @@ class LidarOdometryNode : public rclcpp::Node
         odom_msg.twist.twist = Eigen::toMsg(state->velocity);
 
         odom_publisher->publish(odom_msg);
-
-        // Publish the transform
-        geometry_msgs::msg::TransformStamped transformStamped;
-
-        transformStamped.header.stamp = this->get_clock()->now();
-        transformStamped.header.frame_id = fixed_id;
-        transformStamped.child_frame_id = child_id;
-        transformStamped.transform.translation.x = state->pose.translation().x();
-        transformStamped.transform.translation.y = state->pose.translation().y();
-        transformStamped.transform.translation.z = state->pose.translation().z();
-        transformStamped.transform.rotation.x = state->pose.rotation().x();
-        transformStamped.transform.rotation.y = state->pose.rotation().y();
-        transformStamped.transform.rotation.z = state->pose.rotation().z();
-        transformStamped.transform.rotation.w = state->pose.rotation().w();
-
-        tf_broadcaster_->sendTransform(transformStamped);
       }
 
 };
