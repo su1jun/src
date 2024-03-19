@@ -4,6 +4,8 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include <pcl/registration/gicp.h>
+#include "rclcpp/rclcpp.hpp"
+#include "tf2_ros/transform_broadcaster.h"
 #include "lidar_odometry/utils.hpp"
 
 class LidarOdometry
@@ -21,6 +23,8 @@ class LidarOdometry
         pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr gicp;
 
         Eigen::Matrix4d get_transform_matrix(ScanDataPtr source, ScanDataPtr target);
+
+        std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 };
 
 #endif
