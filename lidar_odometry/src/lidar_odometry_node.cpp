@@ -80,7 +80,7 @@ class LidarOdometryNode : public rclcpp::Node
         nav_msgs::msg::Odometry odom_msg;
 
         odom_msg.header.frame_id = fixed_id;
-        odom_msg.child_frame_id = child_id;
+        // odom_msg.child_frame_id = child_id;
         odom_msg.header.stamp = this->get_clock()->now();
 
         odom_msg.pose.pose = Eigen::toMsg(state->pose);
