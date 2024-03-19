@@ -3,11 +3,11 @@
 
     <joint name="odom_joint" type="fixed">
         <parent link="base_link"/>
-        <child link="odom_frame"/>
+        <child link="odom"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 
-    <link name="odom_frame">
+    <link name="odom">
         <visual>
             <geometry>
                 <sphere radius="0.05"/>
