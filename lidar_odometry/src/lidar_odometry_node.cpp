@@ -5,6 +5,8 @@
 #include "tf2_eigen/tf2_eigen.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "nav_msgs/msg/odometry.hpp"
+#include "tf2_ros/transform_broadcaster.h"
+#include "geometry_msgs/msg/transform_stamped.h"
 #include "lidar_odometry/lidar_odometry.hpp"
 
 class LidarOdometryNode : public rclcpp::Node
@@ -42,6 +44,7 @@ class LidarOdometryNode : public rclcpp::Node
       scan_subscriber = this->create_subscription<sensor_msgs::msg::LaserScan>(
         scan_topic_name, 1000, std::bind(&LidarOdometryNode::scan_callback, this, std::placeholders::_1)
       );
+      tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
     }
 
     private:
@@ -72,17 +75,34 @@ class LidarOdometryNode : public rclcpp::Node
       void publish_odometry() {
         auto state = lidar_odometry_ptr->get_state();
         std::string fixed_id = "odom";
+        std::string child_id = "base_link"; // Change from "laser_frame" to "base_link"
 
         nav_msgs::msg::Odometry odom_msg;
 
         odom_msg.header.frame_id = fixed_id;
-        odom_msg.child_frame_id = "laser_frame";
+        odom_msg.child_frame_id = child_id;
         odom_msg.header.stamp = this->get_clock()->now();
 
         odom_msg.pose.pose = Eigen::toMsg(state->pose);
         odom_msg.twist.twist = Eigen::toMsg(state->velocity);
 
         odom_publisher->publish(odom_msg);
+
+        // Publish the transform
+        geometry_msgs::msg::TransformStamped transformStamped;
+
+        transformStamped.header.stamp = this->get_clock()->now();
+        transformStamped.header.frame_id = fixed_id;
+        transformStamped.child_frame_id = child_id;
+        transformStamped.transform.translation.x = state->pose.translation().x();
+        transformStamped.transform.translation.y = state->pose.translation().y();
+        transformStamped.transform.translation.z = state->pose.translation().z();
+        transformStamped.transform.rotation.x = state->pose.rotation().x();
+        transformStamped.transform.rotation.y = state->pose.rotation().y();
+        transformStamped.transform.rotation.z = state->pose.rotation().z();
+        transformStamped.transform.rotation.w = state->pose.rotation().w();
+
+        tf_broadcaster_->sendTransform(transformStamped);
       }
 
 };
