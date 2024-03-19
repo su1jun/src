@@ -23,6 +23,7 @@ class LidarOdometryNode : public rclcpp::Node
       double maximum_iterations;
       std::string scan_topic_name;
       std::string odom_topic_name;
+      std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
       this->get_parameter("max_correspondence_distance", max_correspondence_distance);
       this->get_parameter("transformation_epsilon", transformation_epsilon);
