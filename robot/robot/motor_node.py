@@ -35,7 +35,7 @@ class MotorSpeedController(Node):
         right_vel = min(max(right_vel, -100), 100)
 
         self.motor_go(left_vel, right_vel)
-        self.get_logger().info(f'left = {left_vel:+3d}, right = {right_vel:+3d}')
+        self.get_logger().info(f'left = {left_vel:+3.0f}, right = {right_vel:+3.0f}')
     
     def setup_gpio(self, test=False):
         self.SH = test
