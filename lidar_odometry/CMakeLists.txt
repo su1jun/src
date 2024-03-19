@@ -17,6 +17,7 @@ find_package(laser_geometry REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_eigen REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -37,6 +38,7 @@ ament_target_dependencies(lidar_odometry_node
   pcl_conversions
   tf2
   tf2_eigen
+  tf2_ros
 )
 
 target_include_directories(lidar_odometry_node PUBLIC
