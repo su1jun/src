@@ -14,6 +14,9 @@ class LidarOdometry
         LidarOdometry(double max_correspondence_distance = 1.0, double transformation_epsilon = 0.001, double maximum_iterations = 1000);
         StatePtr get_state();
         void process_scan_data(const ScanDataPtr scan_data);
+
+        std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+
     private:
 
         ScanDataPtr last_scan_ptr;
@@ -24,7 +27,6 @@ class LidarOdometry
 
         Eigen::Matrix4d get_transform_matrix(ScanDataPtr source, ScanDataPtr target);
 
-        std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 };
 
 #endif
