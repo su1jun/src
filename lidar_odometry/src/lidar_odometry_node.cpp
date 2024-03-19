@@ -37,14 +37,14 @@ class LidarOdometryNode : public rclcpp::Node
       RCLCPP_INFO(this->get_logger(), "maximum_iterations %.4f", maximum_iterations);
       RCLCPP_INFO(this->get_logger(), "scan_topic_name: %s", scan_topic_name.c_str());
       RCLCPP_INFO(this->get_logger(), "odom_topic_name: %s", odom_topic_name.c_str());
-
+      tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
       lidar_odometry_ptr = std::make_shared<LidarOdometry>(max_correspondence_distance, transformation_epsilon, maximum_iterations);
 
       odom_publisher = this->create_publisher<nav_msgs::msg::Odometry>(odom_topic_name, 100);
       scan_subscriber = this->create_subscription<sensor_msgs::msg::LaserScan>(
         scan_topic_name, 1000, std::bind(&LidarOdometryNode::scan_callback, this, std::placeholders::_1)
       );
-      tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
+      
     }
 
     private:
