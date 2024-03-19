@@ -15,5 +15,5 @@ BUZZER = 12
 
 BLUETHOOTH = "/dev/ttyS0"
 
-P = 20 # ratio to distance between the wheels
-K = 60 # ratio to wheel`s radius
+P = 60 # ratio to distance between the wheels
+K = 20 # ratio to wheel`s radius
