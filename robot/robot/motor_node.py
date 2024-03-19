@@ -28,8 +28,8 @@ class MotorSpeedController(Node):
 
         diff = angular_vel * P
 
-        left_vel = (linear_vel - diff) / K
-        right_vel = (linear_vel + diff) / K
+        left_vel = (linear_vel - diff) * K
+        right_vel = (linear_vel + diff) * K
 
         left_vel = min(max(left_vel, -100), 100)
         right_vel = min(max(right_vel, -100), 100)
