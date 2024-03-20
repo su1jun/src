@@ -2,12 +2,12 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
     <joint name="odom_joint" type="fixed">
-        <parent link="odom"/>
-        <child link="base_link"/>
+        <parent link="odom_frame"/>
+        <child link="base_footprint"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 
-    <link name="odom">
+    <link name="odom_frame">
         <visual>
             <geometry>
                 <sphere radius="0.05"/>
