@@ -75,7 +75,7 @@ class LidarOdometryNode : public rclcpp::Node
       void publish_odometry() {
         auto state = lidar_odometry_ptr->get_state();
         std::string fixed_id = "odom";
-        std::string child_id = "scan"; // Change from "laser_frame" to "base_link"
+        std::string child_id = "laser_frame"; // Change from "laser_frame" to "base_link"
 
         nav_msgs::msg::Odometry odom_msg;
 
