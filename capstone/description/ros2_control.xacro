@@ -4,13 +4,8 @@
     <xacro:unless value="$(arg sim_mode)">
         <ros2_control name="RealRobot" type="system">
             <hardware>
-                <plugin>ros2_pigpio/PigpioInterface</plugin>
-                <param name="left_wheel_pin">22</param>
-                <param name="right_wheel_pin">25</param>
-                <param name="pwma_pin">18</param>
-                <param name="pwmb_pin">23</param>
-                <param name="direction_a_pin">27</param>
-                <param name="direction_b_pin">24</param>
+                <plugin>mock_components/GenericSystem</plugin>
+                <param name="calculate_dynamics">true</param>
             </hardware>
             <joint name="left_wheel_joint">
                 <command_interface name="velocity">
