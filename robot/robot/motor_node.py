@@ -17,6 +17,14 @@ class MotorSpeedController(Node):
             10)
         # self.subscription # prevent unused variable warning
 
+        self.left_vel = 0.0
+        self.right_vel = 0.0
+        
+        self.last_cmd_vel_time = self.get_clock().now()
+        self.cmd_vel_timeout = 0.1  # Stop motors if no cmd_vel received for 0.1 seconds
+        
+        self.timer = self.create_timer(0.02, self.timer_callback)  # Check every 0.1 seconds
+
         self.get_logger().info('Motor Node has been started')
 
     def __del__(self):
@@ -36,6 +44,12 @@ class MotorSpeedController(Node):
 
         self.motor_go(left_vel, right_vel)
         self.get_logger().info(f'left = {left_vel:+3.0f}, right = {right_vel:+3.0f}')
+
+        self.last_cmd_vel_time = self.get_clock().now()  # Update last time cmd_vel was received
+
+    def timer_callback(self):
+        if (self.get_clock().now() - self.last_cmd_vel_time).nanoseconds * 1e-9 > self.cmd_vel_timeout:
+            self.motor_go(0, 0)  # Stop motors
     
     def setup_gpio(self, test=False):
         self.SH = test
