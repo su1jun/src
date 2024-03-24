@@ -13,11 +13,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-
-    # Include the robot_state_publisher launch file, provided by our own package. Force sim time to be enabled
-    # !!! MAKE SURE YOU SET THE PACKAGE NAME CORRECTLY !!!
-
-    package_name='capstone' #<--- CHANGE ME
+    package_name='capstone'
 
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
@@ -68,7 +64,7 @@ def generate_launch_description():
     )
 
 
-    # Code for delaying a node (I haven't tested how effective it is)
+    # delay communication
     # 
     # First add the below lines to imports
     # from launch.actions import RegisterEventHandler
@@ -84,13 +80,11 @@ def generate_launch_description():
     #
     # Replace the diff_drive_spawner in the final return with delayed_diff_drive_spawner
 
-
-
-    # Launch them all!
+    # Launch
     return LaunchDescription([
         rsp,
-        joystick,
-        twist_mux,
+        # joystick,
+        # twist_mux,
         gazebo,
         spawn_entity,
         diff_drive_spawner,
